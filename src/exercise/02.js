@@ -2,16 +2,18 @@
 // http://localhost:3000/isolated/exercise/02.js
 
 import * as React from 'react'
+import {useState} from "react";
 
 function Greeting({initialName = ''}) {
-  console.log("Render")
+  console.log("Render component")
   const [name, setName] = React.useState(
       ()=> window.localStorage.getItem('name') || initialName
   )
 
   React.useEffect(()=> {
+    console.log("UseEffect call!")
     window.localStorage.setItem('name', name);
-  })
+  },[name])
 
   function handleChange(event) {
     setName(event.target.value)
@@ -28,7 +30,15 @@ function Greeting({initialName = ''}) {
 }
 
 function App() {
-  return <Greeting initialName={'Mike Hunt'} />
+  const [count, setCount] = useState(0);
+  return(
+      <>
+        <button onClick={()=> setCount(prevCount => prevCount + 1)}>
+          {count}
+        </button>
+        <Greeting initialName={'Mike Hunt'} />
+      </>
+  )
 }
 
 export default App
