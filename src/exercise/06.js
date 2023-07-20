@@ -9,23 +9,24 @@ import {PokemonForm} from '../pokemon'
 import {useEffect, useState} from "react";
 
 function PokemonInfo({pokemonName}) {
-    const [pokemon, setPokemon] = useState(null)
-    const [error, setError] = useState('');
-    const [status, setStatus] = useState('idle')
+    const [state, setState] = useState({
+        status: 'idle',
+        pokemon: null,
+        error: null
+    })
+    const {status, pokemon, error} = state
 
     useEffect(() => {
         if (!pokemonName) {
             return
         }
-        setStatus('pending')
+        setState({status: 'pending'})
         fetchPokemon(pokemonName).then(
-            pokemonData => {
-                setPokemon(pokemonData)
-                setStatus('resolved');
+            pokemon => {
+                setState({status: 'resolved', pokemon: pokemon})
             },
             error => {
-                setError(error)
-                setStatus('rejected')
+                setState({status: 'rejected', error: error})
             }
         )
     }, [pokemonName])
