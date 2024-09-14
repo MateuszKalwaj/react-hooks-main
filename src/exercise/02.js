@@ -26,9 +26,9 @@ function Greeting({initialName = ''}) {
         </div>
     )
 }
-function useCounter() {
-    const [count, setCount] = useState(0);
-    const increment = () => setCount(prevState => prevState + 1);
+function useCounter(initialValue = 0) {
+    const [count, setCount] = useState(initialValue)
+    const increment = () => setCount((prevState) => prevState + 1);
     return [count, increment];
 }
 
