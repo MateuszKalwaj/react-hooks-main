@@ -4,18 +4,22 @@
 import * as React from 'react'
 import {useEffect, useState} from "react";
 
-function Greeting({initialName = ''}) {
-    console.log("calling greetings")
-    const [name, setName] = useState(()=> localStorage.getItem('name') || initialName);
+const useLocalStorageState = (initialName) => {
+    const [name, setName] = useState(() => localStorage.getItem('name') || initialName)
 
-    useEffect(() => {
-        console.log("calling useEffect")
-         localStorage.setItem('name', name);
-    })
+    useEffect (() => {
+        localStorage.setItem('name', name);
+    },[name])
 
+    return [name, setName];
+}
+
+function Greeting({initialName}) {
+    const [name, setName] = useLocalStorageState(initialName);
     function handleChange(event) {
         setName(event.target.value)
     }
+    
     return (
         <div>
             <form>
@@ -26,6 +30,7 @@ function Greeting({initialName = ''}) {
         </div>
     )
 }
+
 function useCounter(initialValue = 0) {
     const [count, setCount] = useState(initialValue)
     const increment = () => setCount((prevState) => prevState + 1);
