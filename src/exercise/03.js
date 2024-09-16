@@ -3,21 +3,15 @@
 
 import * as React from 'react'
 
-function Name() {
-    const [name, setName] = React.useState('')
-
+function Name({name, onNameChange}) {
   return (
     <div>
       <label htmlFor="name">Name: </label>
-      <input
-          id="name"
-          value={name}
-          onChange={event => setName(event.target.value)} />
+      <input id="name" value={name} onChange={onNameChange} />
     </div>
   )
 }
 
-// 🐨 accept `animal` and `onAnimalChange` props to this component
 function FavoriteAnimal({animal, onAnimalChange}) {
   return (
     <div>
@@ -26,23 +20,24 @@ function FavoriteAnimal({animal, onAnimalChange}) {
         id="animal"
         value={animal}
         onChange={onAnimalChange}
-      />
+        />
     </div>
   )
 }
 
-// 🐨 uncomment this
-function Display({animal}) {
-  return <div>{`Hey, your favorite animal is: ${animal}!`}</div>
+function Display({name, animal}) {
+  return <div>{`Hey ${name}, your favorite animal is: ${animal}!`}</div>
 }
 
 function App() {
+  
   const [animal, setAnimal] = React.useState('')
+  const [name, setName] = React.useState('')
   return (
     <form>
-      <Name />
-      <FavoriteAnimal animal={animal} onAnimalChange={event => setAnimal(event.target.value)} />
-      <Display animal={animal} />
+      <Name name={name} onNameChange={event => setName(event.target.value)} />
+      <FavoriteAnimal onAnimalChange={event => setAnimal(event.target.value)}  />
+      <Display name={name} animal={animal} />
     </form>
   )
 }
